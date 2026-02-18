@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Sony early-00s chrome base */
+  --bg-primary: #0e1218;
+  --bg-secondary: #151c26;
+  --bg-tertiary: #1b2431;
+  --bg-panel: #121924;
+  --bg-raised: #202a37;
+  --bg-gloss: rgba(255, 255, 255, 0.07);
+
+  --text-primary: #dce6f3;
+  --text-secondary: #98a7bb;
+  --text-dim: #708399;
+
+  --border: #304052;
+  --border-dark: #1f2c3d;
+  --edge-light: rgba(219, 235, 255, 0.14);
+  --edge-dark: rgba(6, 9, 13, 0.52);
+
+  /* Sony-like signal accents */
+  --warm-intervals: #64b9dc;
+  --warm-chords: #53b3d8;
+  --warm-scales: #6f8fb2;
+  --warm-active: #57c1da;
+  --warm-success: #77d48f;
+  --warm-highlight: #d5ab59;
+
+  /* Semantic UI states */
+  --state-on: #72d48f;
+  --state-mid: #d6b466;
+  --state-hot: #d58b5e;
+  --state-alert: #bf5d6f;
+
+  /* Geometry */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-pill: 999px;
+
+  /* Depth primitives */
+  --shadow-inset: inset 0 1px 0 var(--edge-light), inset 0 -1px 0 var(--edge-dark);
+  --shadow-raised: 0 6px 16px rgba(4, 7, 10, 0.42);
+  --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.07), 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  font-weight: 400;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Courier New', monospace;
+}
+
+.technical-text,
+.mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+  font-variant-ligatures: none;
+  letter-spacing: -0.01em;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: var(--r-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-primary);
+}

@@ -1,0 +1,312 @@
+.exercise-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.exercise-panel h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ========== EXERCISE LIST ========== */
+.exercise-list {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  border: 2px solid var(--text-primary);
+}
+
+.exercise-card {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-right: 2px solid var(--text-primary);
+  border-bottom: 2px solid var(--text-primary);
+  cursor: pointer;
+  transition: none;
+}
+
+.exercise-card:hover {
+  background: var(--bg-secondary);
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.exercise-card h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.difficulty {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.difficulty.beginner {
+  background: var(--warm-success);
+  color: var(--text-primary);
+  border-color: var(--warm-success);
+}
+
+.difficulty.intermediate {
+  background: var(--warm-chords);
+  color: var(--text-primary);
+  border-color: var(--warm-chords);
+}
+
+.difficulty.advanced {
+  background: var(--warm-active);
+  color: var(--bg-primary);
+  border-color: var(--warm-active);
+}
+
+.exercise-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.exercise-module {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--bg-primary);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========== ACTIVE EXERCISE ========== */
+.exercise-panel.active {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border: 2px solid var(--text-primary);
+}
+
+.exercise-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--text-primary);
+}
+
+.btn-back {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  transition: none;
+  border: 2px solid var(--text-primary);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.btn-back:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+.exercise-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.exercise-title h3 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.score-display {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--warm-chords);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* ========== EXERCISE CONTENT ========== */
+.exercise-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.exercise-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.instructions {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border: 2px solid var(--border);
+}
+
+.instructions h4 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.instructions ol {
+  margin-left: 1.5rem;
+}
+
+.instructions li {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.target-chords {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border: 2px solid var(--warm-chords);
+}
+
+.target-chords h4 {
+  margin-bottom: 1rem;
+  color: var(--warm-chords);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.chord-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 2px solid var(--text-primary);
+}
+
+.chord-item {
+  background: var(--bg-primary);
+  padding: 0.75rem 1.25rem;
+  border-right: 2px solid var(--text-primary);
+  border-bottom: 2px solid var(--text-primary);
+}
+
+.chord-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--warm-chords);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.chord-item span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ========== ACTIONS ========== */
+.exercise-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid;
+}
+
+.btn-primary {
+  background: var(--warm-active);
+  color: var(--bg-primary);
+  border-color: var(--warm-active);
+  flex: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.btn-secondary {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+/* ========== EVALUATION RESULT ========== */
+.evaluation-result {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border: 3px solid var(--warm-success);
+  animation: none;
+}
+
+.evaluation-result .points {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--warm-success);
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 2px solid var(--text-primary);
+}
+
+.feedback-msg {
+  background: var(--bg-primary);
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border-bottom: 2px solid var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.feedback-msg:last-child {
+  border-bottom: none;
+}
