@@ -189,7 +189,7 @@ export class MusicTheoryEngine {
         bassNote,
         description: 'Third in bass',
       };
-    } else if (relativePosition === 2 && uniquePitchClasses.length >= 4) {
+    } else if (relativePosition === 2 && uniquePitchClasses.length >= 3) {
       return {
         type: 'second',
         position: '2nd Inversion',

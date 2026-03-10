@@ -27,6 +27,14 @@ export const useAppStore = create((set, get) => ({
   quizFeedback: null, // 'correct' | 'incorrect' | null
   quizStreak: 0,
 
+  // Learn Chords state (Impara gli Accordi)
+  learnChordsActive: false,
+  learnChordsScale: 'C major',
+  learnChordsTargetChord: null,
+  learnChordsScore: 0,
+  learnChordsFeedback: null,
+  learnChordsStreak: 0,
+
   // UI state
   showPianoRoll: true,
   showFeedback: true,
@@ -81,6 +89,21 @@ export const useAppStore = create((set, get) => ({
   incrementQuizScore: () => set((state) => ({ quizScore: state.quizScore + 1, quizStreak: state.quizStreak + 1 })),
   resetQuizStreak: () => set({ quizStreak: 0 }),
   resetQuiz: () => set({ quizActive: false, quizTargetChord: null, quizScore: 0, quizFeedback: null, quizStreak: 0 }),
+
+  // Learn Chords Actions
+  setLearnChordsActive: (active) => set({ learnChordsActive: active }),
+  setLearnChordsScale: (scale) => set({ learnChordsScale: scale }),
+  setLearnChordsTargetChord: (chord) => set({ learnChordsTargetChord: chord }),
+  setLearnChordsFeedback: (feedback) => set({ learnChordsFeedback: feedback }),
+  incrementLearnChordsScore: () => set((state) => ({ learnChordsScore: state.learnChordsScore + 1, learnChordsStreak: state.learnChordsStreak + 1 })),
+  resetLearnChordsStreak: () => set({ learnChordsStreak: 0 }),
+  resetLearnChords: () => set({
+    learnChordsActive: false,
+    learnChordsTargetChord: null,
+    learnChordsScore: 0,
+    learnChordsFeedback: null,
+    learnChordsStreak: 0,
+  }),
 
   togglePianoRoll: () => set((state) => ({ showPianoRoll: !state.showPianoRoll })),
   toggleFeedback: () => set((state) => ({ showFeedback: !state.showFeedback })),

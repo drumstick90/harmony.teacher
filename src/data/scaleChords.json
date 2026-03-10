@@ -1,0 +1,140 @@
+{
+  "C major": {
+    "scale": ["C", "D", "E", "F", "G", "A", "B"],
+    "degrees": [
+      {
+        "degree": "I",
+        "name": "C",
+        "type": "Major",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["C", "E", "G"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["E", "G", "C"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["G", "C", "E"]
+          }
+        ]
+      },
+      {
+        "degree": "II",
+        "name": "Dm",
+        "type": "Minor",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["D", "F", "A"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["F", "A", "D"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["A", "D", "F"]
+          }
+        ]
+      },
+      {
+        "degree": "III",
+        "name": "Em",
+        "type": "Minor",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["E", "G", "B"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["G", "B", "E"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["B", "E", "G"]
+          }
+        ]
+      },
+      {
+        "degree": "IV",
+        "name": "F",
+        "type": "Major",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["F", "A", "C"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["A", "C", "F"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["C", "F", "A"]
+          }
+        ]
+      },
+      {
+        "degree": "V",
+        "name": "G",
+        "type": "Major",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["G", "B", "D"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["B", "D", "G"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["D", "G", "B"]
+          }
+        ]
+      },
+      {
+        "degree": "VI",
+        "name": "Am",
+        "type": "Minor",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["A", "C", "E"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["C", "E", "A"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["E", "A", "C"]
+          }
+        ]
+      },
+      {
+        "degree": "VII",
+        "name": "Bdim",
+        "type": "Diminished",
+        "chords": [
+          {
+            "inversion": "Root Position",
+            "notes": ["B", "D", "F"]
+          },
+          {
+            "inversion": "1st Inversion",
+            "notes": ["D", "F", "B"]
+          },
+          {
+            "inversion": "2nd Inversion",
+            "notes": ["F", "B", "D"]
+          }
+        ]
+      }
+    ]
+  }
+}

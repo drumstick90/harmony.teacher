@@ -8,6 +8,8 @@ import ChordDisplay from './components/ChordDisplay';
 import PianoRoll from './components/PianoRoll';
 import TensionMeter from './components/TensionMeter';
 import QuizPanel from './components/QuizPanel';
+import LearnChordsPanel from './components/LearnChordsPanel';
+import { getScaleChords } from './data/learnChordsData';
 import './styles/App.css';
 
 console.log('📦 App.jsx - All imports loaded');
@@ -23,6 +25,7 @@ function App() {
     tension,
     feedback,
     quizActive,
+    learnChordsActive,
     keyboardInputEnabled,
     setMidiInitialized,
     setMidiDevices,
@@ -31,7 +34,9 @@ function App() {
     setVoiceLeadingAnalysis,
     setTension,
     setFeedback,
-    setQuizActive, // Add this
+    setQuizActive,
+    setLearnChordsActive,
+    resetLearnChords,
     toggleQuiz,
     toggleKeyboardInput,
   } = useAppStore();
@@ -42,10 +47,11 @@ function App() {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
 
-  // Initialize MIDI
+  // Initialize MIDI and preload scale chords
   useEffect(() => {
     initializeMIDI();
     initializeAudio();
+    getScaleChords('C major'); // Preload in background
   }, []);
 
   // Update keyboard input state
@@ -240,6 +246,80 @@ function App() {
     );
   }
 
+  if (learnChordsActive) {
+    return (
+      <div className="app">
+        <header className="app-header">
+          <h1>Harmony Analyzer</h1>
+          <div className="header-controls">
+            <button 
+              className={`btn-toggle ${keyboardInputEnabled ? 'active' : ''}`}
+              onClick={toggleKeyboardInput}
+              aria-pressed={keyboardInputEnabled}
+              title={keyboardInputEnabled ? 'Disable Keyboard Input' : 'Enable Keyboard Input'}
+            >
+              Keys
+            </button>
+            <button 
+              className={`btn-toggle ${audioEnabled ? 'active' : ''}`}
+              onClick={toggleAudio}
+              aria-pressed={audioEnabled}
+              disabled={!audioInitialized}
+              title={audioEnabled ? 'Disable synth' : 'Enable synth'}
+            >
+              {audioEnabled ? 'Synth On' : 'Synth Off'}
+            </button>
+            <button 
+              className="btn-icon active"
+              onClick={resetLearnChords}
+              title="Esci da Impara gli Accordi"
+            >
+              Esci
+            </button>
+          </div>
+        </header>
+
+        <div className="app-layout simple two-column">
+          <div className="left-panel">
+            <PianoRoll 
+              activeNotes={activeNotes} 
+              analysis={currentAnalysis}
+            />
+            <TensionMeter tension={tension} />
+          </div>
+
+          <div className="center-panel full-width">
+            <LearnChordsPanel />
+          </div>
+        </div>
+
+        <footer className="app-footer">
+          <div className="status">
+            {midiInitialized ? (
+              <>
+                <span className="status-dot active"></span>
+                <span>MIDI Connected | {activeNotes.length} note(s) active</span>
+              </>
+            ) : (
+              <>
+                <span className="status-dot inactive"></span>
+                <span>MIDI Disconnected</span>
+              </>
+            )}
+          </div>
+          {currentAnalysis && (
+            <div className="current-chord">
+              {currentAnalysis.chordName}
+            </div>
+          )}
+          <div className="audio-status">
+            {audioEnabled && 'Synth Active'}
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
   if (quizActive) {
     return (
       <div className="app">
@@ -328,8 +408,16 @@ function App() {
             Keys
           </button>
           <button 
+            className={`btn-toggle ${learnChordsActive ? 'active' : ''}`}
+            onClick={() => { setQuizActive(false); setLearnChordsActive(true); }}
+            aria-pressed={learnChordsActive}
+            title="Impara gli accordi della scala (Do maggiore)"
+          >
+            Impara Accordi
+          </button>
+          <button 
             className={`btn-toggle ${quizActive ? 'active' : ''}`}
-            onClick={() => setQuizActive(!quizActive)}
+            onClick={() => { setLearnChordsActive(false); setQuizActive(!quizActive); }}
             aria-pressed={quizActive}
             title="Start Chord Quiz"
           >
