@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Note } from 'tonal';
 import '../styles/PianoRoll.css';
 
-const PianoRoll = ({ activeNotes = [], analysis }) => {
+const PianoRoll = ({ activeNotes = [], analysis, theme }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ const PianoRoll = ({ activeNotes = [], analysis }) => {
     const stateMid = css.getPropertyValue('--state-mid').trim();
     const stateHot = css.getPropertyValue('--state-hot').trim();
     const stateAlert = css.getPropertyValue('--state-alert').trim();
+    const activeNoteLabel = css.getPropertyValue('--active-note-label').trim() || '#0f1215';
 
     // Clear canvas
     ctx.fillStyle = bgPrimary;
@@ -68,7 +69,7 @@ const PianoRoll = ({ activeNotes = [], analysis }) => {
         ctx.strokeRect(10.5, y + 2.5, width - 21, noteHeight - 5);
 
         // Note label
-        ctx.fillStyle = '#0f1215';
+        ctx.fillStyle = activeNoteLabel;
         ctx.font = '12px monospace';
         ctx.fillText(noteName, 20, y + noteHeight / 2 + 4);
       }
@@ -93,7 +94,7 @@ const PianoRoll = ({ activeNotes = [], analysis }) => {
       ctx.fillText(analysis.chordName, 20, 35);
     }
 
-  }, [activeNotes, analysis]);
+  }, [activeNotes, analysis, theme]);
 
   return (
     <div className="piano-roll">

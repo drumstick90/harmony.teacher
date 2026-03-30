@@ -6,13 +6,14 @@
 export class MIDIManager {
   constructor() {
     this.midiAccess = null;
-    this.activeNotes = new Map(); // Map of note number -> velocity
+    this.activeNotes = new Map();
     this.listeners = new Set();
+    this.deviceChangeListeners = new Set();
     this.isInitialized = false;
+    this.initError = null;
     this.keyboardEnabled = false;
-    this.keyboardOctave = 4; // Default octave (C4)
+    this.keyboardOctave = 4;
     this.keyboardMap = {
-      // White row (physical keys)
       KeyA: 0,  // C
       KeyS: 2,  // D
       KeyD: 4,  // E
@@ -21,41 +22,64 @@ export class MIDIManager {
       KeyH: 9,  // A
       KeyJ: 11, // B
       KeyK: 12, // C (next octave)
-      // Black row (physical keys)
       KeyW: 1,  // C#
-      KeyE: 3,  // D# (requested: E key)
+      KeyE: 3,  // D#
       KeyT: 6,  // F#
       KeyY: 8,  // G#
       KeyU: 10, // A#
     };
-    this.activeKeyboardNotes = new Map(); // event.code -> midi note
+    this.activeKeyboardNotes = new Map();
   }
 
-  /**
-   * Initialize MIDI access
-   */
   async initialize() {
-    // Setup keyboard listeners regardless of Web MIDI support
     this.setupKeyboardListeners();
+    this.initError = null;
 
     if (!navigator.requestMIDIAccess) {
-      console.warn('Web MIDI API is not supported in this browser');
-      // Still consider initialized if we can use keyboard
+      this.initError = 'Web MIDI API non supportata in questo browser. Usa Chrome, Edge o Opera.';
+      console.warn(this.initError);
       this.isInitialized = true;
       return true;
     }
 
     try {
-      this.midiAccess = await navigator.requestMIDIAccess();
+      this.midiAccess = await navigator.requestMIDIAccess({ sysex: false });
       this.setupInputs();
       this.isInitialized = true;
-      console.log('MIDI initialized successfully');
+
+      const devices = this.getDevices();
+      console.log(`MIDI inizializzato: ${devices.inputs.length} input, ${devices.outputs.length} output`);
+      devices.inputs.forEach(d => console.log(`  Input: "${d.name}" (${d.state})`));
+      
+      if (devices.inputs.length === 0) {
+        console.warn('Nessun dispositivo MIDI trovato. Collega una tastiera e premi Refresh.');
+      }
       return true;
     } catch (error) {
-      console.error('Failed to initialize MIDI:', error);
-      // Still consider initialized if we can use keyboard
+      this.initError = `Accesso MIDI negato: ${error.message}. Controlla i permessi del browser.`;
+      console.error(this.initError, error);
       this.isInitialized = true;
-      return true; // Don't throw, allow app to run with keyboard only
+      return true;
+    }
+  }
+
+  async refreshDevices() {
+    if (!navigator.requestMIDIAccess) return;
+
+    try {
+      this.midiAccess = await navigator.requestMIDIAccess({ sysex: false });
+      this.setupInputs();
+      this.initError = null;
+
+      const devices = this.getDevices();
+      console.log(`MIDI refresh: ${devices.inputs.length} input trovati`);
+      devices.inputs.forEach(d => console.log(`  Input: "${d.name}" (${d.state})`));
+      this.notifyDeviceChange();
+      return devices;
+    } catch (error) {
+      this.initError = `Accesso MIDI negato: ${error.message}`;
+      console.error('MIDI refresh failed:', error);
+      return this.getDevices();
     }
   }
 
@@ -145,18 +169,17 @@ export class MIDIManager {
   setupInputs() {
     if (!this.midiAccess) return;
 
-    // Listen to all available MIDI inputs
     this.midiAccess.inputs.forEach(input => {
-      console.log(`MIDI Input: ${input.name}`);
       input.onmidimessage = this.handleMIDIMessage.bind(this);
     });
 
-    // Listen for device connection changes
     this.midiAccess.onstatechange = (event) => {
-      console.log('MIDI device state changed:', event.port.name, event.port.state);
-      if (event.port.state === 'connected' && event.port.type === 'input') {
+      const { name, state, type } = event.port;
+      console.log(`MIDI device ${state}: "${name}" (${type})`);
+      if (state === 'connected' && type === 'input') {
         event.port.onmidimessage = this.handleMIDIMessage.bind(this);
       }
+      this.notifyDeviceChange();
     };
   }
 
@@ -273,11 +296,22 @@ export class MIDIManager {
     });
   }
 
-  /**
-   * Check if MIDI is available
-   */
   isAvailable() {
     return !!navigator.requestMIDIAccess;
+  }
+
+  getInitError() {
+    return this.initError;
+  }
+
+  onDeviceChange(callback) {
+    this.deviceChangeListeners.add(callback);
+    return () => this.deviceChangeListeners.delete(callback);
+  }
+
+  notifyDeviceChange() {
+    const devices = this.getDevices();
+    this.deviceChangeListeners.forEach(cb => cb(devices));
   }
 }
 

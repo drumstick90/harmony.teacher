@@ -4,4 +4,5 @@ dist
 *.log
 .env
 .vscode
+resources/downloaded_pdfs/
 resources/*.pdf

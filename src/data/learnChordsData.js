@@ -1,16 +1,11 @@
-/**
- * Learn Chords data loader
- * Loads scale chords from JSON and provides flattened chord list for quiz
- */
-
 import scaleChordsJson from './scaleChords.json';
+import { createShuffledQueue } from './shuffleQueue';
 
 let cachedChords = null;
+let scaleQueue = null;
 
 /**
  * Get all chords for a scale as flat array (degree + inversion combinations)
- * @param {string} scaleName - e.g. "C major"
- * @returns {Array<{ degree: string, name: string, type: string, inversion: string, notes: string[], displayName: string }>}
  */
 export function getScaleChords(scaleName) {
   if (cachedChords && cachedChords.scaleName === scaleName) {
@@ -18,9 +13,7 @@ export function getScaleChords(scaleName) {
   }
 
   const scaleData = scaleChordsJson[scaleName];
-  if (!scaleData) {
-    return [];
-  }
+  if (!scaleData) return [];
 
   const chords = [];
   for (const deg of scaleData.degrees) {
@@ -37,23 +30,24 @@ export function getScaleChords(scaleName) {
   }
 
   cachedChords = { scaleName, chords };
+  scaleQueue = createShuffledQueue(chords);
   return chords;
 }
 
 /**
- * Get a random chord from the scale
- * @param {string} scaleName
- * @returns {Object|null}
+ * Get the next random chord from the scale (cycles through all before repeating)
  */
 export function getRandomScaleChord(scaleName) {
   const chords = getScaleChords(scaleName);
   if (chords.length === 0) return null;
-  return chords[Math.floor(Math.random() * chords.length)];
+
+  if (!scaleQueue || scaleQueue.scaleName !== scaleName) {
+    scaleQueue = createShuffledQueue(chords);
+    scaleQueue.scaleName = scaleName;
+  }
+  return scaleQueue.next();
 }
 
-/**
- * Get available scale names
- */
 export function getAvailableScales() {
   return Object.keys(scaleChordsJson);
 }

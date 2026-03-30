@@ -1,7 +1,4 @@
-/**
- * Chord Database for Quiz Mode
- * Contains Major and Minor chords with all inversions
- */
+import { createShuffledQueue } from './shuffleQueue';
 
 const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
@@ -80,8 +77,6 @@ const generateDatabase = () => {
 
 export const chordDatabase = generateDatabase();
 
-// Helper to get a random chord
-export const getRandomChord = () => {
-  const randomIndex = Math.floor(Math.random() * chordDatabase.length);
-  return chordDatabase[randomIndex];
-};
+const quizQueue = createShuffledQueue(chordDatabase);
+
+export const getRandomChord = () => quizQueue.next();

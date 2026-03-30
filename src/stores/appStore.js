@@ -1,33 +1,25 @@
 import { create } from 'zustand';
 
-/**
- * Global application state
- */
 export const useAppStore = create((set, get) => ({
   // MIDI state
   midiInitialized: false,
   midiDevices: { inputs: [], outputs: [] },
   activeNotes: [],
-  
+
   // Analysis state
   currentAnalysis: null,
   voiceLeadingAnalysis: null,
   tension: 0,
   feedback: { suggestions: [], compliments: [] },
-  
-  // Exercise state
-  currentExercise: null,
-  exerciseProgress: 0,
-  score: 0,
-  
+
   // Quiz state
   quizActive: false,
   quizTargetChord: null,
   quizScore: 0,
-  quizFeedback: null, // 'correct' | 'incorrect' | null
+  quizFeedback: null,
   quizStreak: 0,
 
-  // Learn Chords state (Impara gli Accordi)
+  // Learn Chords state
   learnChordsActive: false,
   learnChordsScale: 'C major',
   learnChordsTargetChord: null,
@@ -36,52 +28,31 @@ export const useAppStore = create((set, get) => ({
   learnChordsStreak: 0,
 
   // UI state
-  showPianoRoll: true,
-  showFeedback: true,
-  showTheoryPanel: true,
-  showQuiz: false,
   keyboardInputEnabled: false,
-  
+  lightTheme: false,
+
   // History
   chordHistory: [],
   maxHistoryLength: 50,
 
   // Actions
   setMidiInitialized: (initialized) => set({ midiInitialized: initialized }),
-  
   setMidiDevices: (devices) => set({ midiDevices: devices }),
-  
   setActiveNotes: (notes) => set({ activeNotes: notes }),
-  
+
   setCurrentAnalysis: (analysis) => {
-    // Only update if analysis has changed to avoid loops, but we need to trigger updates for quiz
-    // For now, just set it.
     set({ currentAnalysis: analysis });
-    
-    // Add to history
     if (analysis) {
       const { chordHistory, maxHistoryLength } = get();
       const newHistory = [...chordHistory, analysis].slice(-maxHistoryLength);
       set({ chordHistory: newHistory });
     }
   },
-  
+
   setVoiceLeadingAnalysis: (analysis) => set({ voiceLeadingAnalysis: analysis }),
-  
   setTension: (tension) => set({ tension }),
-  
   setFeedback: (feedback) => set({ feedback }),
-  
-  setCurrentExercise: (exercise) => set({ 
-    currentExercise: exercise,
-    exerciseProgress: 0,
-    score: 0,
-  }),
-  
-  updateExerciseProgress: (progress) => set({ exerciseProgress: progress }),
-  
-  updateScore: (points) => set((state) => ({ score: state.score + points })),
-  
+
   // Quiz Actions
   setQuizActive: (active) => set({ quizActive: active }),
   setQuizTargetChord: (chord) => set({ quizTargetChord: chord }),
@@ -105,14 +76,16 @@ export const useAppStore = create((set, get) => ({
     learnChordsStreak: 0,
   }),
 
-  togglePianoRoll: () => set((state) => ({ showPianoRoll: !state.showPianoRoll })),
-  toggleFeedback: () => set((state) => ({ showFeedback: !state.showFeedback })),
-  toggleTheoryPanel: () => set((state) => ({ showTheoryPanel: !state.showTheoryPanel })),
-  toggleQuiz: () => set((state) => ({ showQuiz: !state.showQuiz })),
   toggleKeyboardInput: () => set((state) => ({ keyboardInputEnabled: !state.keyboardInputEnabled })),
-  
+  setLightTheme: (enabled) => set({ lightTheme: enabled }),
+  toggleLightTheme: () => set((state) => {
+    const next = !state.lightTheme;
+    try { localStorage.setItem('harmony-light-theme', JSON.stringify(next)); } catch (_) {}
+    return { lightTheme: next };
+  }),
+
   clearHistory: () => set({ chordHistory: [] }),
-  
+
   reset: () => set({
     activeNotes: [],
     currentAnalysis: null,

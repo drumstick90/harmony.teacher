@@ -128,8 +128,9 @@ const LearnChordsPanel = () => {
         <div className="target-chord-name">
           {learnChordsTargetChord.name} — {inversionLabel}
         </div>
-        <div className="target-chord-notes">
-          ({learnChordsTargetChord.notes.join(' - ')})
+        <div className="target-chord-notes spoiler">
+          <span className="spoiler-text">{learnChordsTargetChord.notes.join(' - ')}</span>
+          <span className="spoiler-label">hover per rivelare</span>
         </div>
       </div>
 
